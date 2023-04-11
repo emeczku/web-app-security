@@ -23,7 +23,7 @@ As a frontend web developer, there are several important aspects of web security
 
 1. **Input validation**: Always validate and sanitize any data that is received from users or external sources, such as form submissions or API responses. This helps prevent attacks such as SQL injection.
 
-```
+```javascript
 // Example of vulnerable code
 const query = `SELECT * FROM users WHERE username='${username}' AND password='${password}'`;
 
@@ -41,7 +41,7 @@ db.query(query, params, (err, results) => {
 ***
 2. **Cross-Site Scripting (XSS)** prevention: XSS attacks occur when malicious scripts are injected into web pages and executed in the browsers of unsuspecting users. Implement proper input validation, output encoding, and use of secure coding practices to prevent XSS attacks.
 
-```
+```javascript
 // Example of vulnerable code
 const input = `<script>alert('XSS attack!');</script>`;
 document.getElementById('output').innerHTML = input;
@@ -55,7 +55,7 @@ document.getElementById('output').innerHTML = sanitizedInput;
 ***
 3. **Cross-Site Request Forgery (CSRF)** protection: CSRF attacks occur when a malicious website tricks a user's browser into making unauthorized requests to another website on which the user is authenticated. Implementing CSRF protection measures, such as using anti-CSRF tokens, can help prevent these attacks.
 
-```
+```javascript
 // Example of setting CSRF token in a cookie
 function setCSRFTokenInCookie() {
   const csrfToken = generateCSRFToken(); // Generate CSRF token
@@ -87,7 +87,7 @@ function sendFetchRequest() {
 
 4. **Content Security Policy (CSP)**: Implementing CSP headers can help mitigate cross-site scripting (XSS) and other code injection attacks by specifying which sources of content are allowed to be loaded by a web page.
 
-```
+```html
 <!DOCTYPE html>
 <html>
 <head>

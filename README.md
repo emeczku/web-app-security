@@ -17,8 +17,97 @@ I am a self-taught developer specializing in creating websites and web applicati
     - Reduced risk of unauthorized access
   - SSL - many hosting providers provide free installation of Let's Encrypt
     - [Let's Encrypt - website](https://letsencrypt.org/)
-
+***
 ## Frontend
+As a frontend web developer, there are several important aspects of web security that you should be aware of to ensure that your web applications are secure. Some of the most important aspects of web security for frontend development include:
+
+1. **Input validation**: Always validate and sanitize any data that is received from users or external sources, such as form submissions or API responses. This helps prevent attacks such as SQL injection.
+
+```javascript
+// Example of vulnerable code
+const query = `SELECT * FROM users WHERE username='${username}' AND password='${password}'`;
+
+// Example of input validation to prevent SQL injection
+const query = `SELECT * FROM users WHERE username=? AND password=?`;
+const params = [username, password];
+db.query(query, params, (err, results) => {
+  if (err) {
+    // Handle error
+  } else {
+    // Process results
+  }
+});
+```
+***
+2. **Cross-Site Scripting (XSS)** prevention: XSS attacks occur when malicious scripts are injected into web pages and executed in the browsers of unsuspecting users. Implement proper input validation, output encoding, and use of secure coding practices to prevent XSS attacks.
+
+```javascript
+// Example of vulnerable code
+const input = `<script>alert('XSS attack!');</script>`;
+document.getElementById('output').innerHTML = input;
+
+// Example of input validation to prevent XSS attacks
+const input = `<script>alert('XSS attack!');</script>`;
+const sanitizedInput = sanitizeHTML(input);
+document.getElementById('output').innerHTML = sanitizedInput;
+
+```
+***
+3. **Cross-Site Request Forgery (CSRF)** protection: CSRF attacks occur when a malicious website tricks a user's browser into making unauthorized requests to another website on which the user is authenticated. Implementing CSRF protection measures, such as using anti-CSRF tokens, can help prevent these attacks.
+
+```javascript
+// Example of setting CSRF token in a cookie
+function setCSRFTokenInCookie() {
+  const csrfToken = generateCSRFToken(); // Generate CSRF token
+  document.cookie = `csrfToken=${csrfToken}; Secure; HttpOnly`; // Set CSRF token in a secure, HttpOnly cookie
+}
+
+// Example of sending CSRF token in a header with Fetch request
+function sendFetchRequest() {
+  const csrfToken = getCSRFTokenFromCookie(); // Get CSRF token from cookie
+
+  // Make a POST request with Fetch
+  fetch('/api/some_endpoint', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': csrfToken // Set CSRF token as a custom header
+    },
+    body: JSON.stringify({ /* request body */ })
+  })
+    .then(response => {
+      // Handle response
+    })
+    .catch(error => {
+      // Handle error
+    });
+}
+
+```
+
+4. **Content Security Policy (CSP)**: Implementing CSP headers can help mitigate cross-site scripting (XSS) and other code injection attacks by specifying which sources of content are allowed to be loaded by a web page.
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Set Content Security Policy (CSP) headers using meta tags -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://example.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://example.com;">
+
+  <!-- Other meta tags and head elements -->
+  <meta charset="UTF-8">
+  <title>My CSP-enabled Web Page</title>
+  <!-- ... -->
+</head>
+<body>
+  <!-- HTML body content -->
+  <!-- ... -->
+</body>
+</html>
+
+```
+  In this example, the Content-Security-Policy meta tag is used to define the Content Security Policy headers for the page. The default-src, script-src, style-src, and img-src directives are used to specify the allowed sources for various types of resources, such as scripts, styles, and images. In this example, only resources from the same origin ('self') and from https://example.com are allowed, and inline scripts and styles ('unsafe-inline') are also allowed for demonstration purposes. However, it's generally not recommended to use 'unsafe-inline' as it can introduce security risks such as cross-site scripting (XSS) attacks.
+  ***
 
 ## Backend
 
